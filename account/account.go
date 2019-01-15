@@ -93,21 +93,21 @@ func (account *Account) matchFilter(data map[string]interface{}, filter Filter) 
 				dataValue := _data.(int)
 				filterValue := v.(int)
 				if dataValue != filterValue {
-					log.Printf("[Match] compare failed: data: {%s}, filter: {%s}", dataValue, filterValue)
+					log.Printf("[Match] compare failed: data: {%d}, filter: {%d}", dataValue, filterValue)
 					return false, nil
 				}
 			case reflect.Float32:
 				dataValue := _data.(float32)
 				filterValue := v.(float32)
 				if dataValue != filterValue {
-					log.Printf("[Match] compare failed: data: {%s}, filter: {%s}", dataValue, filterValue)
+					log.Printf("[Match] compare failed: data: {%f}, filter: {%f}", dataValue, filterValue)
 					return false, nil
 				}
 			case reflect.Float64:
 				dataValue := _data.(float64)
 				filterValue := v.(float64)
 				if dataValue != filterValue {
-					log.Printf("[Match] compare failed: data: {%s}, filter: {%s}", dataValue, filterValue)
+					log.Printf("[Match] compare failed: data: {%f}, filter: {%f}", dataValue, filterValue)
 					return false, nil
 				}
 			default:

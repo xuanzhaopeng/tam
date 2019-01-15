@@ -1,8 +1,7 @@
-package tests
+package account
 
 import (
 	"testing"
-	"tam/account"
 	"github.com/stretchr/testify/assert"
 	"time"
 )
@@ -25,7 +24,7 @@ func TestLoadAccountsSuccessfully(t *testing.T) {
 		}
 	]`
 	accountKey := "username"
-	accounts, err := account.BuildAccounts(accountKey, defaultDuration, []byte(jsonStr))
+	accounts, err := BuildAccounts(accountKey, defaultDuration, []byte(jsonStr))
 
 	assert.Nil(t, err, "The accounts load failed")
 	assert.Len(t, accounts.Data, 2, "The accounts length should be 1")
@@ -37,7 +36,7 @@ func TestLoadAccountsFailedByIncorrectFormat(t *testing.T) {
 			abc: abc
 		},
 	]`
-	_, err := account.BuildAccounts("any", defaultDuration, []byte(jsonStr))
+	_, err := BuildAccounts("any", defaultDuration, []byte(jsonStr))
 	assert.Error(t, err, "It should raised err")
 }
 
@@ -49,7 +48,7 @@ func TestLoadAccountsFailedByIncorrectAccountKey(t *testing.T) {
 			"region": "US"
 		}
 	]`
-	_, err := account.BuildAccounts("any", defaultDuration, []byte(jsonStr))
+	_, err := BuildAccounts("any", defaultDuration, []byte(jsonStr))
 	assert.Error(t, err, "It should raised err")
 }
 
@@ -66,7 +65,7 @@ func TestLoadAccountsFailedByDuplicatedKey(t *testing.T) {
 			"region": "NL"
 		}
 	]`
-	_, err := account.BuildAccounts("username", defaultDuration, []byte(jsonStr))
+	_, err := BuildAccounts("username", defaultDuration, []byte(jsonStr))
 	assert.Error(t, err, "It should raised err")
 }
 
@@ -93,8 +92,8 @@ func TestFetchAndReleaseAccountSuccessfully(t *testing.T) {
 	}`
 	accountKey := "username"
 	duration := 10 * time.Second
-	accounts, _ := account.BuildAccounts(accountKey, duration, []byte(jsonStr))
-	filter, _ := account.BuildFilter([]byte(filterStr))
+	accounts, _ := BuildAccounts(accountKey, duration, []byte(jsonStr))
+	filter, _ := BuildFilter([]byte(filterStr))
 	assert.Len(t, accounts.Data, 3, "load accounts failed")
 
 	// US account1
@@ -135,8 +134,8 @@ func TestFetchAndAutoReleaseAccount(t *testing.T) {
 	}`
 	accountKey := "username"
 	duration := 2 * time.Second
-	accounts, _ := account.BuildAccounts(accountKey, duration, []byte(jsonStr))
-	filter, _ := account.BuildFilter([]byte(filterStr))
+	accounts, _ := BuildAccounts(accountKey, duration, []byte(jsonStr))
+	filter, _ := BuildFilter([]byte(filterStr))
 
 	data1, _ := accounts.Fetch(filter)
 	assert.True(t, len(data1) > 0)
@@ -159,8 +158,8 @@ func TestFetchAnyAccount(t *testing.T) {
 
 	accountKey := "username"
 	duration := 10 * time.Second
-	accounts, _ := account.BuildAccounts(accountKey, duration, []byte(jsonStr))
-	filter, _ := account.BuildFilter([]byte(filterStr))
+	accounts, _ := BuildAccounts(accountKey, duration, []byte(jsonStr))
+	filter, _ := BuildFilter([]byte(filterStr))
 
 	data1, _ := accounts.Fetch(filter)
 	assert.True(t, len(data1) > 0)

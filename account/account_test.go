@@ -1,9 +1,8 @@
-package tests
+package account
 
 import (
 	"testing"
 	"encoding/json"
-	"tam/account"
 	"time"
 	"github.com/stretchr/testify/assert"
 	"log"
@@ -102,27 +101,27 @@ func TestAccountCouldBeMatchAny(t *testing.T) {
 }
 
 
-func getAccount(duration time.Duration) *account.Account {
+func getAccount(duration time.Duration) *Account {
 	var accountData map[string]interface{}
 	jsonData := `{
 		"username": "abc",
 		"password": "pass"
 	}`
 	json.Unmarshal([]byte(jsonData), &accountData)
-	return account.NewAccount("username", accountData, duration)
+	return NewAccount("username", accountData, duration)
 }
 
-func getCusAccount(jsonData string, duration time.Duration) *account.Account {
+func getCusAccount(jsonData string, duration time.Duration) *Account {
 	var accountData map[string]interface{}
 	err := json.Unmarshal([]byte(jsonData), &accountData)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return account.NewAccount("username", accountData, duration)
+	return NewAccount("username", accountData, duration)
 }
 
-func getFilter(jsonData string) account.Filter {
-	filter, err := account.BuildFilter([]byte(jsonData))
+func getFilter(jsonData string) Filter {
+	filter, err := BuildFilter([]byte(jsonData))
 	if err != nil {
 		log.Fatal(err)
 	}
