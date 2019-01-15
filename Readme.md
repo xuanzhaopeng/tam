@@ -2,6 +2,7 @@
 
 [![codecov](https://codecov.io/gh/xuanzhaopeng/tam/branch/master/graph/badge.svg)](https://codecov.io/gh/xuanzhaopeng/tam)
 [![Build Status](https://travis-ci.org/xuanzhaopeng/tam.svg?branch=master)](https://travis-ci.org/xuanzhaopeng/tam)
+[![Docker Pulls](https://img.shields.io/docker/pulls/xuanzhaopeng/tam.svg)](https://hub.docker.com/r/xuanzhaopeng/tam)
 
 Test account manager(tam) is a lightweight service to distribute and manage test account for parallel test.
 
