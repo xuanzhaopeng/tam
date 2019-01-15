@@ -9,7 +9,7 @@ Test account manager(tam) is a lightweight service to distribute and manage test
 > Scenarios: Run test cases in PROD environment, we cannot generate random PROD accounts in runtime, in this moment you could use TAM to manage all given available test accounts in PROD, and share them among all kinds of tests. 
 
 It provides following features:
-* Provide a free test account
+* Provide a test account which never been used by other test in current moment
 * Release an allocated test account
 * Each test account only could be allocated by one request
 * It will release test account after given timeout
