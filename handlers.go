@@ -9,8 +9,9 @@ import (
 )
 
 var paths = struct {
-	Fetch, Release string
+	Index, Fetch, Release string
 }{
+	Index:      "/",
 	Fetch:      "/fetch",
 	Release:    "/release",
 }
@@ -19,6 +20,12 @@ func reply(w http.ResponseWriter, msg map[string]interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(msg)
+}
+
+func replyData(w http.ResponseWriter, data interface{}, status int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(data)
 }
 
 func httpMethodOnly(method string, handler http.HandlerFunc) http.HandlerFunc {
@@ -33,6 +40,10 @@ func httpMethodOnly(method string, handler http.HandlerFunc) http.HandlerFunc {
 
 func errMsg(msg string) map[string]interface{} {
 	return map[string]interface{}{"message": msg}
+}
+
+func indexHandler(writer http.ResponseWriter, _ *http.Request) {
+	replyData(writer, accounts.Data, http.StatusOK)
 }
 
 func fetchHandler(writer http.ResponseWriter, req *http.Request) {
@@ -82,7 +93,8 @@ func releaseHandler(writer http.ResponseWriter, req *http.Request) {
 
 func mux() http.Handler {
 	mux := http.NewServeMux()
+	mux.HandleFunc(paths.Index, httpMethodOnly(http.MethodGet, indexHandler))
 	mux.HandleFunc(paths.Fetch, httpMethodOnly(http.MethodPost, fetchHandler))
-	mux.HandleFunc(paths.Release, httpMethodOnly(http.MethodGet, releaseHandler))
+	mux.HandleFunc(paths.Release, httpMethodOnly(http.MethodDelete, releaseHandler))
 	return mux
 }

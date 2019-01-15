@@ -19,6 +19,8 @@ It provides following features:
 
 Prepare accounts.json
 
+> You could define the account structure based on your needs, the following code is just an example
+
 ```bash
 mkdir -p /tmp/tam
 
@@ -57,5 +59,46 @@ docker run -d -t -i -v /tmp/tam:/etc/tam \
  -p 6666:6666 \
  -e TAM_TIMEOUT='20s' \
  -e TAM_KEY='username' \
- --name tam tam:latest-release
+ --name tam xuanzhaopeng/tam:latest-release
 ```
+
+## Practice
+Get status
+
+```bash
+curl -X GET http://localhost:6666 
+```
+
+Fetch any account
+
+```bash
+curl -X POST http://localhost:6666/fetch
+```
+
+Fetch account by filter
+```bash
+# Fetch by attribute 'region'
+curl -X POST \
+  http://localhost:6666/fetch \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"region":"US"
+  }'
+  
+# Fetch by multiple attribute
+curl -X POST \
+  http://localhost:6666/fetch \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"username":"^tester\\d+$",
+	"data": {
+	    "a1": 1
+	}
+  }'
+```
+
+Release account
+```bash
+curl -X DELETE http://localhost:6666/release?username=tester1 
+```
+

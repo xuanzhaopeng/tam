@@ -16,11 +16,11 @@ type Account struct {
 	Data map[string]interface{}
 	duration time.Duration
 	mutex  *sync.Mutex
-	isLocked bool
+	Locked bool
 }
 
 func NewAccount(key string, data map[string]interface{}, duration time.Duration) *Account {
-	return &Account{Key:key, Data:data, duration:duration, mutex: &sync.Mutex{}, isLocked: false}
+	return &Account{Key:key, Data:data, duration:duration, mutex: &sync.Mutex{}, Locked: false}
 }
 
 func (account *Account) Lock() (map[string]interface{}, error) {
@@ -30,12 +30,12 @@ func (account *Account) Lock() (map[string]interface{}, error) {
 
 	account.mutex.Lock()
 	defer account.mutex.Unlock()
-	account.isLocked = true
+	account.Locked = true
 	log.Printf("[Lock] %s\n", account.Key)
 	go func(account *Account) {
 		timer := time.NewTimer(account.duration)
 		<- timer.C
-		if account.isLocked {
+		if account.Locked {
 			account.Unlock()
 		}
 	}(account)
@@ -44,7 +44,7 @@ func (account *Account) Lock() (map[string]interface{}, error) {
 
 func (account *Account) Unlock() {
 	account.mutex.Lock()
-	account.isLocked = false
+	account.Locked = false
 	log.Printf("[UnLock] %s\n", account.Key)
 	account.mutex.Unlock()
 }
@@ -52,7 +52,7 @@ func (account *Account) Unlock() {
 func (account *Account) IsLocked() bool {
 	account.mutex.Lock()
 	defer account.mutex.Unlock()
-	return account.isLocked
+	return account.Locked
 }
 
 func (account *Account) MatchFilter(filter Filter) (bool,error) {
