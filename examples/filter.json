@@ -1,0 +1,6 @@
+{
+  "username": "^tester\\d+$",
+  "data": {
+    "a1": 1
+  }
+}

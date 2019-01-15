@@ -1,0 +1,22 @@
+[
+  {
+    "username": "tester1",
+    "password": "pass1",
+    "refreshToken": "rt1",
+    "region": "US",
+    "data": {
+      "a1": 1,
+      "a2": 2
+    }
+  },
+  {
+    "username": "tester2",
+    "password": "pass1",
+    "refreshToken": "rt1",
+    "region": "NL",
+    "data": {
+      "a1": 1,
+      "a2": 3
+    }
+  }
+]
