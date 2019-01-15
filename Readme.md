@@ -1,5 +1,7 @@
 # Test account manager
 
+[![Build Status](https://travis-ci.org/xuanzhaopeng/tam.svg?branch=master)](https://travis-ci.org/xuanzhaopeng/tam)
+
 Test account manager(tam) is a lightweight service to distribute and manage test account for parallel test.
 
 > Scenarios: Run test cases in PROD environment, we cannot generate random PROD accounts in runtime, in this moment you could use TAM to manage all given available test accounts in PROD, and share them among all kinds of tests. 
