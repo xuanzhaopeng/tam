@@ -1,12 +1,32 @@
 sudo: required
 language: go
 
+services:
+  - docker
+
 go:
   - 1.11.x
 
 script:
-  - export GO111MODULE="on"
   - go test ./... -race -coverprofile=coverage.txt -covermode=atomic
+  - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
+
+deploy:
+  - provider: script
+    script: travis/docker-push.sh latest
+    skip_cleanup: true
+    on:
+      branch: master
+  - provider: script
+    script: travis/docker-push.sh $TRAVIS_TAG
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: script
+    script: travis/docker-push.sh latest-release
+    skip_cleanup: true
+    on:
+      tags: true
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
